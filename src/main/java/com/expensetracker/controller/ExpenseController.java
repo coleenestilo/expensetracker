@@ -2,15 +2,10 @@ package com.expensetracker.controller;
 
 import com.expensetracker.model.Expense;
 import com.expensetracker.service.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,7 +32,7 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public ResponseEntity<Expense> addExpense(@RequestBody Expense expense) {
+    public ResponseEntity<Expense> addExpense(@Valid @RequestBody Expense expense) {
         Expense saved = expenseService.addExpense(expense);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
@@ -49,5 +44,13 @@ public class ExpenseController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Expense> updateExpense(@PathVariable String id,
+                                                 @Valid @RequestBody Expense expense) {
+        return expenseService.updateExpense(id, expense)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
