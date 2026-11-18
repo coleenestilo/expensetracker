@@ -1,0 +1,78 @@
+<h1>Expense Tracker</h1>
+
+@if (error()) {
+<p style="color: red">{{ error() }}</p>
+}
+
+<h2>{{ editingAccount() ? 'Edit account' : 'Add account' }}</h2>
+<form (ngSubmit)="saveAccount()">
+  <input name="accountName" [(ngModel)]="accountName" placeholder="Account name">
+  <input name="accountBalance" type="number" [(ngModel)]="accountBalance" placeholder="Balance">
+  <button type="submit">{{ editingAccount() ? 'Save' : 'Add' }}</button>
+  @if (editingAccount()) {
+    <button type="button" (click)="resetAccountForm()">Cancel</button>
+  }
+</form>
+
+<h2>Accounts</h2>
+<ul>
+  @for (account of accounts(); track account.id) {
+    <li>{{ account.name }}: {{ account.balance }}</li>
+  }
+</ul>
+
+<h2>{{ editingExpense() ? 'Edit expense' : 'Add expense' }}</h2>
+<form (ngSubmit)="saveExpense()">
+  <input name="expenseDescription" [(ngModel)]="expenseDescription" placeholder="Description (optional)">
+  <input name="expenseAmount" type="number" [(ngModel)]="expenseAmount" placeholder="Amount">
+  <input name="expenseCategory" [(ngModel)]="expenseCategory" placeholder="Category">
+  <select name="expenseAccountId" [(ngModel)]="expenseAccountId">
+    <option value="">Select account</option>
+    @for (account of accounts(); track account.id) {
+    <option [value]="account.id">{{ account.name }}</option>
+    }
+  </select>
+  <button type="submit">{{ editingExpense() ? 'Save' : 'Add' }}</button>
+  @if (editingExpense()) {
+  <button type="button" (click)="resetExpenseForm()">Cancel</button>
+  }
+</form>
+
+<h2>Expenses</h2>
+<ul>
+  @for (expense of expenses(); track expense.id) {
+  <li>
+    {{ expense.date }} | {{ expense.category }} | {{ expense.description }} | {{ expense.amount }}
+    <button type="button" (click)="startEditExpense(expense)">Edit</button>
+    <button type="button" (click)="deleteExpense(expense.id)">Delete</button>
+  </li>
+  }
+</ul>
+
+<h2>{{ editingIncome() ? 'Edit income' : 'Add income' }}</h2>
+<form (ngSubmit)="saveIncome()">
+  <input name="incomeDescription" [(ngModel)]="incomeDescription" placeholder="Description (optional)">
+  <input name="incomeAmount" type="number" [(ngModel)]="incomeAmount" placeholder="Amount">
+  <input name="incomeCategory" [(ngModel)]="incomeCategory" placeholder="Category">
+  <select name="incomeAccountId" [(ngModel)]="incomeAccountId">
+    <option value="">Select account</option>
+    @for (account of accounts(); track account.id) {
+    <option [value]="account.id">{{ account.name }}</option>
+    }
+  </select>
+  <button type="submit">{{ editingIncome() ? 'Save' : 'Add' }}</button>
+  @if (editingIncome()) {
+  <button type="button" (click)="resetIncomeForm()">Cancel</button>
+  }
+</form>
+
+<h2>Incomes</h2>
+<ul>
+  @for (income of incomes(); track income.id) {
+  <li>
+    {{ income.date }} | {{ income.category }} | {{ income.description }} | {{ income.amount }}
+    <button type="button" (click)="startEditIncome(income)">Edit</button>
+    <button type="button" (click)="deleteIncome(income.id)">Delete</button>
+  </li>
+  }
+</ul>
