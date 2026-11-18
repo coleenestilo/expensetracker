@@ -10,23 +10,23 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class Expense {
-    // Fields for each expense
     private final String id;
-    private String description;
-    private BigDecimal amount;
-    private String category;
-    private String accountId;
-    private LocalDate date;
 
     @Size(max = 100, message = "Description must be 100 characters or less")
+    private String description;
 
     @NotNull(message = "Amount is required")
     @DecimalMin(value = "0.01", message = "Amount must be greater than zero")
     @Digits(integer = 10, fraction = 2, message = "Amount can have at most 2 decimal places")
+    private BigDecimal amount;
 
     @NotBlank(message = "Category is required")
+    private String category;
 
     @NotBlank(message = "Account is required")
+    private String accountId;
+
+    private LocalDate date;
 
     public Expense(String id, String description, BigDecimal amount, String category, String accountId, LocalDate date) {
         // Constructor

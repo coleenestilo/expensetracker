@@ -10,14 +10,14 @@ import jakarta.validation.constraints.Size;
 public class Account {
 
     private final String id;
-    private String name;
-    private BigDecimal balance;
 
     @NotBlank(message = "Name is required")
     @Size(max = 50, message = "Name must be 50 characters or less")
+    private String name;
 
     @NotNull(message = "Balance is required")
     @Digits(integer = 10, fraction = 2, message = "Balance can have at most 2 decimal places")
+    private BigDecimal balance;
 
     public Account(String id, String name, BigDecimal balance) {
         this.id = id;
